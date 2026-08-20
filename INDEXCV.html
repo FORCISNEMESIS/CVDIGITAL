@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ángel Gabriel Ricárdez Romero | Portafolio Profesional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #090d16;
+      --bg-card: rgba(18, 26, 43, 0.75);
+      --bg-card-hover: rgba(28, 40, 65, 0.85);
+      --accent-cyan: #00d2ff;
+      --accent-blue: #3a7bd5;
+      --accent-emerald: #10b981;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --glow-cyan: 0 0 25px rgba(0, 210, 255, 0.35);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Ambient Glow Backgrounds */
+    .glow-blob {
+      position: fixed;
+      width: 450px;
+      height: 450px;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.18;
+    }
+    .blob-1 { top: -100px; left: -100px; background: var(--accent-cyan); }
+    .blob-2 { bottom: -100px; right: -100px; background: var(--accent-blue); }
+
+    /* ================= INTRO OVERLAY ================= */
+    #intro-screen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    #intro-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .intro-avatar-wrap {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .intro-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent-cyan);
+      box-shadow: 0 0 30px rgba(0, 210, 255, 0.4);
+      background: #1e293b;
+    }
+
+    .intro-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: rgba(0, 210, 255, 0.1);
+      border: 1px solid rgba(0, 210, 255, 0.3);
+      color: var(--accent-cyan);
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      animation: pulseBadge 2s infinite ease-in-out;
+    }
+
+    .intro-title {
+      font-size: clamp(2rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      background: linear-gradient(135deg, #ffffff 30%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.8rem;
+    }
+
+    .intro-subtitle {
+      font-size: clamp(0.95rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 2.2rem;
+    }
+
+    .btn-enter {
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+      color: #030712;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 38px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      box-shadow: var(--glow-cyan);
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-enter:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 35px rgba(0, 210, 255, 0.6);
+    }
+
+    @keyframes pulseBadge {
+      0%, 100% { opacity: 0.8; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    /* ================= MAIN CONTENT ================= */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Navbar */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(9, 13, 22, 0.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-color);
+      z-index: 100;
+      padding: 1rem 0;
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--accent-cyan); }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-cyan);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 5rem 0 4rem;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-info h1 {
+      font-size: clamp(2.4rem, 4vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .hero-info h2 {
+      font-size: 1.25rem;
+      color: var(--accent-cyan);
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-info p {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-contact-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .chip:hover {
+      background: rgba(0, 210, 255, 0.1);
+      border-color: rgba(0, 210, 255, 0.4);
+      color: var(--accent-cyan);
+    }
+
+    /* Presentation Card with Photo */
+    .hero-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-blue));
+    }
+
+    .photo-container {
+      position: relative;
+      width: 170px;
+      height: 170px;
+      margin: 0.5rem auto 1.5rem;
+    }
+
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      border-radius: 24px;
+      object-fit: cover;
+      border: 2px solid rgba(0, 210, 255, 0.4);
+      box-shadow: 0 10px 25px rgba(0, 210, 255, 0.25);
+      background: #1e293b;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      box-shadow: 0 0 8px var(--accent-emerald);
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-top: 1.4rem;
+      text-align: left;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      padding: 0.85rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-box h3 {
+      font-size: 1.1rem;
+      color: var(--accent-cyan);
+    }
+    .stat-box p {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* Sections */
+    section {
+      padding: 4.5rem 0;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border-color), transparent);
+    }
+
+    /* Experience Card */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .timeline-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .timeline-item:hover {
+      border-color: rgba(0, 210, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .exp-role {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .exp-company {
+      color: var(--accent-cyan);
+      font-weight: 600;
+      font-size: 1.05rem;
+    }
+
+    .exp-period {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 12px;
+      border-radius: 20px;
+      height: fit-content;
+    }
+
+    .exp-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+    }
+
+    .exp-list li {
+      position: relative;
+      padding-left: 24px;
+    }
+
+    .exp-list li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: var(--accent-cyan);
+      font-weight: bold;
+    }
+
+    /* Skills Grid */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.8rem;
+      transition: var(--transition);
+    }
+
+    .card:hover {
+      border-color: rgba(0, 210, 255, 0.3);
+      transform: translateY(-3px);
+    }
+
+    .card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 1.2rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .skill-tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .skill-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      transition: var(--transition);
+    }
+
+    .skill-tag:hover {
+      background: rgba(0, 210, 255, 0.15);
+      border-color: var(--accent-cyan);
+      color: #fff;
+    }
+
+    /* Education Item */
+    .edu-item {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .edu-item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .edu-title {
+      font-weight: 700;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .edu-inst {
+      color: var(--accent-cyan);
+      font-size: 0.9rem;
+    }
+
+    .edu-date {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 3rem 0;
+      text-align: center;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 868px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 2.5rem;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Light Blobs -->
+  <div class="glow-blob blob-1"></div>
+  <div class="glow-blob blob-2"></div>
+
+  <!-- INTRO SCREEN -->
+  <div id="intro-screen">
+    <div class="intro-avatar-wrap">
+      <img src="foto-perfil.jpeg" alt="Ángel Gabriel Ricárdez Romero" class="intro-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Angel+Gabriel&background=00d2ff&color=030712&size=150'" />
+    </div>
+    <div class="intro-badge">Bienvenido al Perfil Profesional</div>
+    <h1 class="intro-title">Ángel Gabriel<br/>Ricárdez Romero</h1>
+    <p class="intro-subtitle">Tecnologías de la Información, Monitoreo CCTV, Prevención de Pérdidas y Soporte Técnico</p>
+    <button class="btn-enter" onclick="enterPortfolio()">
+      <span>Ingresar al Sitio</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </button>
+  </div>
+
+  <!-- HEADER / NAVBAR -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo">Ángel<span>.dev</span></a>
+      <ul class="nav-links">
+        <li><a href="#experiencia">Experiencia</a></li>
+        <li><a href="#aptitudes">Aptitudes</a></li>
+        <li><a href="#formacion">Formación</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <!-- MAIN WRAPPER -->
+  <main class="container">
+
+    <!-- HERO SECTION -->
+    <section class="hero" style="border-top: none;">
+      <div class="hero-info">
+        <h2>Hola, soy</h2>
+        <h1>Ángel Gabriel<br/>Ricárdez Romero</h1>
+        <p>
+          Profesional enfocado en <strong>Tecnologías de Información</strong>, gestión y operación en sistemas de <strong>monitoreo y CCTV</strong>, y <strong>prevención de pérdidas / soporte técnico</strong>.
+        </p>
+
+        <div class="hero-contact-chips">
+          <a href="mailto:romero00990@gmail.com" class="chip">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            romero00990@gmail.com
+          </a>
+          <a href="tel:9371625569" class="chip">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+            937-162-5569
+          </a>
+          <span class="chip">
+            📍 Cancún, Quintana Roo
+          </span>
+        </div>
+      </div>
+
+      <!-- Presentation Card with Photo -->
+      <div class="hero-card">
+        <div class="photo-container">
+          <img src="foto-perfil.jpeg" alt="Foto de presentación - Ángel Gabriel Ricárdez" class="profile-photo" onerror="this.src='https://ui-avatars.com/api/?name=Angel+Gabriel&background=00d2ff&color=030712&size=200'" />
+        </div>
+
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          Disponible para nuevas oportunidades
+        </div>
+        <h3 style="margin-bottom: 0.3rem; font-size: 1.2rem;">Ángel Gabriel Ricárdez</h3>
+        <p style="font-size: 0.88rem; color: var(--text-muted);">
+          Monitorista Administrativo & Soporte TI
+        </p>
+
+        <div class="quick-stats">
+          <div class="stat-box">
+            <h3>CCTV</h3>
+            <p>Monitoreo en Vivo</p>
+          </div>
+          <div class="stat-box">
+            <h3>B1</h3>
+            <p>Inglés Intermedio</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCIA SECTION -->
+    <section id="experiencia">
+      <h2 class="section-title">Historial Laboral</h2>
+      <div class="timeline">
+
+        <!-- Experiencia Corporativo SYNER:GO -->
+        <div class="timeline-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Monitorista Administrativo</div>
+              <div class="exp-company">Corporativo SYNER:GO</div>
+            </div>
+            <div class="exp-period">Experiencia Laboral</div>
+          </div>
+          <ul class="exp-list">
+            <li>Operación y supervisión continua mediante diversos programas y plataformas de monitoreo y videovigilancia.</li>
+            <li>Gestión y respuesta eficaz a eventos críticos y situaciones de alta exigencia, manteniendo alto desempeño bajo presión.</li>
+            <li>Atención minuciosa al detalle en la detección de anomalías, seguimiento de protocolos y registro administrativo de incidencias.</li>
+          </ul>
+        </div>
+
+        <!-- Experiencia Chedraui -->
+        <div class="timeline-item">
+          <div class="exp-header">
+            <div>
+              <div class="exp-role">Auxiliar de Prevención de Pérdidas</div>
+              <div class="exp-company">Chedraui — Cancún, Quintana Roo</div>
+            </div>
+            <div class="exp-period">Junio 2025 – Mayo 2026</div>
+          </div>
+          <ul class="exp-list">
+            <li>Planificación de actividades preventivas y dirección de actuaciones a desarrollar en casos de emergencia y primeros auxilios.</li>
+            <li>Realización de inspecciones rutinarias de instalaciones y redacción de informes técnicos de incidencias.</li>
+            <li>Responsable de asegurar un entorno laboral seguro y saludable para los colaboradores.</li>
+            <li>Aplicación de normativas y políticas de seguridad ocupacional para garantizar ambientes óptimos.</li>
+            <li>Implementación rigurosa de protocolos de seguridad tanto para clientes como para personal interno.</li>
+            <li>Operación, seguimiento y monitoreo con sistemas de CCTV y seguridad electrónica.</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FORMACIÓN Y APTITUDES -->
+    <section id="aptitudes">
+      <h2 class="section-title">Habilidades & Formación</h2>
+      <div class="grid-2">
+        
+        <!-- Aptitudes -->
+        <div class="card">
+          <h3>
+            <svg width="22" height="22" fill="none" stroke="var(--accent-cyan)" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            Aptitudes y Competencias
+          </h3>
+          <div class="skill-tag-group" style="margin-bottom: 1.5rem;">
+            <span class="skill-tag">Programas de Monitoreo & CCTV</span>
+            <span class="skill-tag">Atención al Detalle</span>
+            <span class="skill-tag">Trabajo Bajo Presión</span>
+            <span class="skill-tag">Gestión Administrativa de Incidencias</span>
+            <span class="skill-tag">Microsoft Office (Avanzado)</span>
+            <span class="skill-tag">Protocolos de Seguridad y Prevención</span>
+            <span class="skill-tag">Resolución de Problemas</span>
+            <span class="skill-tag">Soporte Técnico Hardware / Software</span>
+          </div>
+
+          <h3>
+            <svg width="22" height="22" fill="none" stroke="var(--accent-cyan)" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            Idiomas
+          </h3>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <div style="background: rgba(255,255,255,0.03); border:1px solid var(--border-color); padding: 10px 16px; border-radius: 10px; flex: 1;">
+              <strong>Español:</strong> Nativo (C2)
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border:1px solid var(--border-color); padding: 10px 16px; border-radius: 10px; flex: 1;">
+              <strong>Inglés:</strong> Intermedio (B1)
+            </div>
+          </div>
+        </div>
+
+        <!-- Educación -->
+        <div class="card" id="formacion">
+          <h3>
+            <svg width="22" height="22" fill="none" stroke="var(--accent-cyan)" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+            Formación Académica
+          </h3>
+
+          <div class="edu-item">
+            <div class="edu-title">Ingeniería en Sistemas Computacionales</div>
+            <div class="edu-inst">Instituto Tecnológico Superior de Comalcalco | Comalcalco, TAB</div>
+            <div class="edu-date">Agosto 2023 – Enero 2026 • Informática, Software y Hardware</div>
+          </div>
+
+          <div class="edu-item">
+            <div class="edu-title">PTB en Soporte y Mantenimiento de Equipo de Cómputo</div>
+            <div class="edu-inst">Colegio Nacional de Educación Profesional Técnica (CONALEP) | Cárdenas, TAB</div>
+            <div class="edu-date">Septiembre 2019 – Septiembre 2022 • Tecnologías de Información</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACTO SECTION -->
+    <section id="contacto">
+      <div class="card" style="text-align: center; padding: 3rem 1.5rem; background: linear-gradient(180deg, rgba(18,26,43,0.9), rgba(9,13,22,0.9));">
+        <h2 style="font-size: 2rem; margin-bottom: 0.8rem;">¿Interesado en colaborar?</h2>
+        <p style="color: var(--text-muted); max-width: 500px; margin: 0 auto 2rem;">
+          Ponte en contacto para oportunidades laborales, monitoreo de seguridad o soporte técnico.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <a href="mailto:romero00990@gmail.com" class="btn-enter" style="text-decoration: none;">
+            Enviar Correo
+          </a>
+          <a href="tel:9371625569" class="btn-enter" style="text-decoration: none; background: transparent; border: 1px solid var(--accent-cyan); color: var(--accent-cyan); box-shadow: none;">
+            Llamar al 937-162-5569
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>© 2026 Ángel Gabriel Ricárdez Romero. Todos los derechos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    function enterPortfolio() {
+      const intro = document.getElementById('intro-screen');
+      intro.classList.add('hide');
+      setTimeout(() => {
+        intro.style.display = 'none';
+      }, 800);
+    }
+  </script>
+</body>
+</html>
